@@ -1,0 +1,83 @@
+<!doctype html>  
+<html lang="en" >  
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Laureate
+    </title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+</head>  
+<body >  
+    <div class="container"> 
+        
+	
+    <!--Cabecera-->
+        <div class="jumbotron text-center">
+            <h1>Test Laureate: 20/12/2016 <span class="label label-info">Dorian Ordoñez </span></h1>
+        </div>
+        <form>
+		Filtar <input id="searchTerm" type="text" onkeyup="doSearch()" />
+	</form>
+        <!--Lista de Todos-->
+        <div id="todo-list" >
+            <div >
+                <table class="table " id="datos">
+{% for row in res %}
+    <tr>
+<td>
+<img src='{{row.snippet.thumbnails.default.url}}' ></td>
+      <td>{{ row.snippet.title }}</td>
+      <td>{{ row.snippet.description }}</td>
+    </tr>
+{% endfor %}
+                </table>
+             </div>
+         </div>
+        
+
+
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> 
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script> 
+    
+</body>
+
+<script language="javascript">
+		function doSearch()
+		{
+			var tableReg = document.getElementById('datos');
+			var searchText = document.getElementById('searchTerm').value.toLowerCase();
+			var cellsOfRow="";
+			var found=false;
+			var compareWith="";
+ 
+			// Recorremos todas las filas con contenido de la tabla
+			for (var i = 1; i < tableReg.rows.length; i++)
+			{
+				cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+				found = false;
+				// Recorremos todas las celdas
+				for (var j = 0; j < cellsOfRow.length && !found; j++)
+				{
+					compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+					// Buscamos el texto en el contenido de la celda
+					if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1))
+					{
+						found = true;
+					}
+				}
+				if(found)
+				{
+					tableReg.rows[i].style.display = '';
+				} else {
+					// si no ha encontrado ninguna coincidencia, esconde la
+					// fila de la tabla
+					tableReg.rows[i].style.display = 'none';
+				}
+			}
+		}
+	</script>
+
+
+    
+</html>
